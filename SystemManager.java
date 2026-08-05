@@ -20,4 +20,16 @@ public class SystemManager{
     public static ArrayList<Opening> getAllOpenings(){
         return allOpenings;
     }
+
+    public static ArrayList<Opening> search(int time, String subject, String date){
+        ArrayList<Opening> results = new ArrayList<>();
+
+        for(Opening o : allOpenings){
+            if((o.getTutor().getSubject() == subject && (time < o.getEnd() && time >= o.getstart())) && o.getDate() == date){
+                results.add(o);
+            }
+        }
+        
+        return results;
+    }
 }

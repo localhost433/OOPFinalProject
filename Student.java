@@ -7,6 +7,5 @@ public class Student{
     public Student(String n, String p){
         name = n;
         password = p;
-        SystemManager.getAllStudents().add(this);
     }
 }

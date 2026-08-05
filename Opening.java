@@ -10,6 +10,22 @@ public class Opening{
         end = e;
         date = d;
         openingTutor = t;
-        SystemManager.getAllOpenings().add(this);
+        s = null;
+    }
+
+    public Tutor getTutor(){
+        return t;
+    }
+
+    public int getStart(){
+        return start;
+    }
+
+    public int getEnd(){
+        return end;
+    }
+
+    public String getDate(){
+        return date;
     }
 }

@@ -9,6 +9,21 @@ public class Tutor{
         name = n;
         password = p;
         subject = s;
-        SystemManager.getAllTutors().add(this);
+    }
+
+    public String getName(){
+        return name;
+    }
+
+    public String getPassword(){
+        return paswword;
+    }
+
+    public ArrayList<Opening> getOpenings(){
+        return AvailableOpenings;
+    }
+
+    public String getSubject(){
+        return subject;
     }
 }
