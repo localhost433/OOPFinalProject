@@ -11,19 +11,15 @@ public class Tutor{
         subject = s;
     }
 
-    public String getName(){
-        return name;
-    }
-
-    public String getPassword(){
-        return paswword;
-    }
-
-    public ArrayList<Opening> getOpenings(){
-        return AvailableOpenings;
+    public void addOpening(Opening o){
+        AvailableOpenings.add(o);
     }
 
     public String getSubject(){
         return subject;
+    }
+
+    public ArrayList<Opening> getAllOpenings(){
+        return AvailableOpenings;
     }
 }

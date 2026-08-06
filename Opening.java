@@ -3,18 +3,16 @@ public class Opening{
     private int end;
     private String date;
     private Tutor openingTutor;
-    private Student s;
+    private String subject;
+    private Student openingStudent;
 
     public Opening(int s, int e, String d, Tutor t){
         start = s;
         end = e;
         date = d;
         openingTutor = t;
+        subject = t.getSubject();
         s = null;
-    }
-
-    public Tutor getTutor(){
-        return t;
     }
 
     public int getStart(){
@@ -25,7 +23,15 @@ public class Opening{
         return end;
     }
 
+    public String getSubject(){
+        return subject;
+    }
+
     public String getDate(){
         return date;
+    }
+
+    public void setStudent(Student s){
+        openingstudent = s;
     }
 }

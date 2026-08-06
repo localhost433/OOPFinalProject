@@ -8,4 +8,12 @@ public class Student{
         name = n;
         password = p;
     }
+
+    public ArrayList<Opening> getAllBookings(){
+        return bookedOpenings;
+    }
+
+    public void addBooking(Opening o){
+        bookedOpenings.add(o);
+    }
 }
