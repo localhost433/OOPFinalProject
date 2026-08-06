@@ -36,5 +36,5 @@ public class Main{
         System.out.println(allOps);
     }
 
-    
+    //we need to make methods that allow a student to book and cancel an opening
 }
