@@ -5,12 +5,12 @@ public class Main{
         
     }
 
-    public static void createStudent(Sting name, String password){
+    public static void createStudent(String name, String password){
         Student s = new Student(name, password);
         SystemManager.addStudent(s);
     }
 
-    public static void addTutor(Sting name, String password, String subject){
+    public static void addTutor(String name, String password, String subject){
         Tutor t = new Tutor(name, password, subject);
         SystemManager.addTutor(t);
     }

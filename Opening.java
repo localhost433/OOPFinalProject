@@ -12,7 +12,7 @@ public class Opening{
         date = d;
         openingTutor = t;
         subject = t.getSubject();
-        s = null;
+        openingStudent = null;
     }
 
     public int getStart(){
@@ -32,6 +32,6 @@ public class Opening{
     }
 
     public void setStudent(Student s){
-        openingstudent = s;
+        openingStudent = s;
     }
 }
