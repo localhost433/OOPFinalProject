@@ -1,0 +1,30 @@
+@startuml use-case-diagram
+' Use case diagram — Tutoring Center Appointment Manager
+
+actor Student as student
+actor Tutor as tutor
+
+rectangle "Tutoring Center Appointment Manager" {
+  usecase register   as "Register account"
+  usecase addOpening as "Add opening"
+  usecase viewOpen   as "View my openings"
+  usecase search     as "Search openings"
+  usecase book       as "Book opening"
+  usecase cancel     as "Cancel booking"
+  usecase viewBook   as "View my bookings"
+}
+
+student --> register
+student --> search
+student --> book
+student --> cancel
+student --> viewBook
+
+tutor --> register
+tutor --> addOpening
+tutor --> viewOpen
+
+book ..> search : <<include>>
+cancel ..> viewBook : <<include>>
+
+@enduml
