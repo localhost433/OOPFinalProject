@@ -10,7 +10,6 @@ public class Opening implements Serializable{
     private Tutor openingTutor;
     private String subject;
     private Student openingStudent;
-    private int id;
 
     public Opening(int s, int e, String d, Tutor t){
         id = nextID++;

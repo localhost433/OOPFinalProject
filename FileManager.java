@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import java.io.*;
 import java.util.ArrayList;
 public class FileManager{
@@ -31,10 +30,5 @@ public class FileManager{
         catch (Exception e) {
 
         }
-=======
-public class FileManager{
-    public static void saveData(){
-
->>>>>>> b475c9a6846505953beb182a60d40c49c03acdec
     }
 }

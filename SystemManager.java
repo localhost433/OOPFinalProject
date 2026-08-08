@@ -29,19 +29,15 @@ public class SystemManager{
     }
 
     public static Opening getOpen(int ID){
-<<<<<<< HEAD
         for(Opening o : allOpenings){
             if(o.getID() == ID){
                 return o;
             }
         }
-=======
->>>>>>> b475c9a6846505953beb182a60d40c49c03acdec
         return null;
     }
 
     public static void save(){
-<<<<<<< HEAD
         FileManager.save(allStudents, allTutors, allOpenings);
     }
 
@@ -81,8 +77,5 @@ public class SystemManager{
             }
         }
         return null;
-=======
-
->>>>>>> b475c9a6846505953beb182a60d40c49c03acdec
     }
 }
