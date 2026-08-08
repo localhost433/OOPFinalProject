@@ -47,14 +47,6 @@ public class Opening implements Serializable{
     }
 
     public boolean isAvailable(){
-        return false;
-    }
-
-    public int getID(){
-        return id;
-    }
-
-    public boolean isAvailable(){
         return (openingStudent==null);
     }
 
