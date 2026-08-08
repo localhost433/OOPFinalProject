@@ -70,7 +70,7 @@ public class Main{
                     if (s.nextLine().equalsIgnoreCase("y")) {
                         System.out.print("Enter Opening ID: ");
                         int id = Integer.parseInt(s.nextLine());
-                        bookApps(stud, id);
+                        bookApp(stud, id);
                     }
 
                     break;
@@ -147,25 +147,15 @@ public class Main{
     }
 
     public static void bookApps(Student s, int ID){
-        Opening o = SystemManager.getOpen(ID);
-        if(o == null){
+        Opening o = getOpen(ID);
+        if(Opening == null){
             System.out.println("No such Opening");
             return;
         }
         boolean result = o.isAvailable();
         if(result != true){
             System.out.println("not open");
-            return;
-        }
-        for(Opening open : s.getAllBookings()){
-            if(open.getID() == ID){
-                System.out.println("You already booked this opening.");
-                return;
-            }
-        }
-        if(s.hasConflict(o)){
-            System.out.println("You already have a booking at this time.");
-            return;
+            continue;
         }
 
         o.setStudent(s);
