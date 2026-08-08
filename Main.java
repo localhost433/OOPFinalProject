@@ -103,11 +103,7 @@ public class Main{
         SystemManager.save();
     }
 
-<<<<<<< HEAD
     public static void createTutor(Sting name, String password, String subject){
-=======
-    public static void addTutor(String name, String password, String subject){
->>>>>>> b475c9a6846505953beb182a60d40c49c03acdec
         Tutor t = new Tutor(name, password, subject);
         SystemManager.addTutor(t);
         SystemManager.save();
