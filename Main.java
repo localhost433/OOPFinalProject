@@ -140,7 +140,6 @@ public class Main{
         }
     }
 
-<<<<<<< HEAD
     public static void bookApps(Student s, int ID){
         Opening o = getOpen(ID);
         if(Opening == null){
@@ -202,13 +201,5 @@ public class Main{
             System.out.println("No such student profile or incorrect password.");
         }
         return stud;
-=======
-    public static void bookApp(Student s, int ID){
-
-    }
-
-    public static void cancelApp(Student s, int ID){
-
->>>>>>> b475c9a6846505953beb182a60d40c49c03acdec
     }
 }
