@@ -1,5 +1,6 @@
 import java.util.ArrayList;
-public class Student{
+import java.io.Serializable;
+public class Student implements Serializable{
     private ArrayList<Opening> bookedOpenings = new ArrayList<>();
     private String name;
     private String password;
@@ -13,7 +14,23 @@ public class Student{
         return bookedOpenings;
     }
 
-    public void addBooking(Opening o){
+    public void addOpening(Opening o){
         bookedOpenings.add(o);
+    }
+
+    public void removeBooking(int ID){
+        for(Opening o : bookedOpenings){
+            if(o.getID() == ID){
+                bookedOpenings.remove(o);
+            }
+        }
+    }
+
+    public String getName(){
+        return name;
+    }
+
+    public String getPassword(){
+        return password;
     }
 }

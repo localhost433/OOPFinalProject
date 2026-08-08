@@ -1,5 +1,6 @@
 import java.util.ArrayList;
-public class Tutor{
+import java.io.Serializable;
+public class Tutor implements Serializable{
     private ArrayList<Opening> AvailableOpenings = new ArrayList<>();
     private String name;
     private String password;
@@ -21,5 +22,13 @@ public class Tutor{
 
     public ArrayList<Opening> getAllOpenings(){
         return AvailableOpenings;
+    }
+
+    public String getName(){
+        return name;
+    }
+
+    public String getPassword(){
+        return password;
     }
 }
