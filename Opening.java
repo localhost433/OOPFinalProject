@@ -55,4 +55,12 @@ public class Opening implements Serializable{
         }
         return id + " | " + date + " | " + start + "-" + end + " | " + subject + " | Tutor: " + openingTutor.getName() + " | Status: Booked by " + openingStudent.getName();
     }
+
+    public Student getStudent(){
+        return openingStudent;
+    }
+
+    public static void setNextID(int ID){
+        nextID = ID;
+    }
 }

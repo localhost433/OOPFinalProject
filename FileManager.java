@@ -26,6 +26,15 @@ public class FileManager{
             SystemManager.setAllTutors(tutors);
             SystemManager.setAllOpenings(openings);
 
+            int maxID = 0;
+
+            for(Opening o : openings){
+                if(o.getID() > maxID){
+                    maxID = o.getID();
+                }
+            }
+
+            Opening.setNextID(maxID + 1);
         } 
         catch (Exception e) {
 

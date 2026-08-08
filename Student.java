@@ -19,9 +19,10 @@ public class Student implements Serializable{
     }
 
     public void removeBooking(int ID){
-        for(Opening o : bookedOpenings){
-            if(o.getID() == ID){
-                bookedOpenings.remove(o);
+        for(int i = 0; i < bookedOpenings.size(); i++){
+            if(bookedOpenings.get(i).getID() == ID){
+                bookedOpenings.remove(i);
+                return;
             }
         }
     }
@@ -32,5 +33,19 @@ public class Student implements Serializable{
 
     public String getPassword(){
         return password;
+    }
+
+    public boolean hasConflict(Opening newOpening){
+        for(Opening o : bookedOpenings){
+
+            if(o.getDate().equals(newOpening.getDate()) &&
+            newOpening.getStart() < o.getEnd() &&
+            newOpening.getEnd() > o.getStart()){
+
+                return true;
+            }
+        }
+
+        return false;
     }
 }

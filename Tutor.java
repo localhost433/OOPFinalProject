@@ -31,4 +31,18 @@ public class Tutor implements Serializable{
     public String getPassword(){
         return password;
     }
+
+    public boolean hasConflict(Opening newOpening){
+        for(Opening o : AvailableOpenings){
+
+            if(o.getDate().equals(newOpening.getDate()) &&
+            newOpening.getStart() < o.getEnd() &&
+            newOpening.getEnd() > o.getStart()){
+
+                return true;
+            }
+        }
+
+        return false;
+    }
 }
