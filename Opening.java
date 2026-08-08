@@ -10,6 +10,7 @@ public class Opening implements Serializable{
     private Tutor openingTutor;
     private String subject;
     private Student openingStudent;
+    private int id;
 
     public Opening(int s, int e, String d, Tutor t){
         id = nextID++;
@@ -18,7 +19,7 @@ public class Opening implements Serializable{
         date = d;
         openingTutor = t;
         subject = t.getSubject();
-        s = null;
+        openingStudent = null;
     }
 
     public int getStart(){
@@ -38,7 +39,15 @@ public class Opening implements Serializable{
     }
 
     public void setStudent(Student s){
-        openingstudent = s;
+        openingStudent = s;
+    }
+
+    public int getID(){
+        return id;
+    }
+
+    public boolean isAvailable(){
+        return false;
     }
 
     public int getID(){

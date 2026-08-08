@@ -97,13 +97,17 @@ public class Main{
         }
     }
 
-    public static void createStudent(Sting name, String password){
+    public static void createStudent(String name, String password){
         Student s = new Student(name, password);
         SystemManager.addStudent(s);
         SystemManager.save();
     }
 
+<<<<<<< HEAD
     public static void createTutor(Sting name, String password, String subject){
+=======
+    public static void addTutor(String name, String password, String subject){
+>>>>>>> b475c9a6846505953beb182a60d40c49c03acdec
         Tutor t = new Tutor(name, password, subject);
         SystemManager.addTutor(t);
         SystemManager.save();
@@ -136,6 +140,7 @@ public class Main{
         }
     }
 
+<<<<<<< HEAD
     public static void bookApps(Student s, int ID){
         Opening o = getOpen(ID);
         if(Opening == null){
@@ -197,5 +202,13 @@ public class Main{
             System.out.println("No such student profile or incorrect password.");
         }
         return stud;
+=======
+    public static void bookApp(Student s, int ID){
+
+    }
+
+    public static void cancelApp(Student s, int ID){
+
+>>>>>>> b475c9a6846505953beb182a60d40c49c03acdec
     }
 }

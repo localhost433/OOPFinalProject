@@ -18,6 +18,7 @@ public class Student implements Serializable{
         bookedOpenings.add(o);
     }
 
+<<<<<<< HEAD
     public void removeBooking(int ID){
         for(Opening o : bookedOpenings){
             if(o.getID() == ID){
@@ -32,5 +33,13 @@ public class Student implements Serializable{
 
     public String getPassword(){
         return password;
+=======
+    public Opening getOpen(int ID){
+        return null;
+    }
+
+    public void removeBooking(Opening o){
+
+>>>>>>> b475c9a6846505953beb182a60d40c49c03acdec
     }
 }
