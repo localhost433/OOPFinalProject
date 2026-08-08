@@ -1,4 +1,8 @@
 public class Opening{
+    private static int nextID = 1;
+
+    private int id;
+
     private int start;
     private int end;
     private String date;
@@ -7,6 +11,7 @@ public class Opening{
     private Student openingStudent;
 
     public Opening(int s, int e, String d, Tutor t){
+        id = nextID++;
         start = s;
         end = e;
         date = d;
