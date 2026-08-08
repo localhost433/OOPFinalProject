@@ -3,28 +3,31 @@
 
 actor Student as student
 actor Tutor as tutor
+actor Admin as admin
 
 rectangle "Tutoring Center Appointment Manager" {
-  usecase register   as "Register account"
-  usecase addOpening as "Add opening"
-  usecase viewOpen   as "View my openings"
-  usecase search     as "Search openings"
-  usecase book       as "Book opening"
-  usecase cancel     as "Cancel booking"
-  usecase viewBook   as "View my bookings"
+  usecase searchOpen    as "Search openings"
+  usecase displayStudent as "Display openings for student"
+  usecase bookApp       as "Book appointment"
+  usecase cancelApp     as "Cancel appointment"
+
+  usecase createOpening as "Create opening"
+  usecase displayTutor  as "Display openings for tutor"
+
+  usecase createStudent as "Create student"
+  usecase createTutor   as "Create tutor"
 }
 
-student --> register
-student --> search
-student --> book
-student --> cancel
-student --> viewBook
+student --> searchOpen
+student --> displayStudent
 
-tutor --> register
-tutor --> addOpening
-tutor --> viewOpen
+tutor --> createOpening
+tutor --> displayTutor
 
-book ..> search : <<include>>
-cancel ..> viewBook : <<include>>
+admin --> createStudent
+admin --> createTutor
+
+bookApp   ..> searchOpen  : <<extend>>
+cancelApp ..> displayStudent : <<extend>>
 
 @enduml
