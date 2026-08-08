@@ -20,7 +20,7 @@ public class SystemManager{
     public static ArrayList<Opening> searchOpenings(int s, String subject, String date){
         ArrayList<Opening> results = new ArrayList<>();
         for(Opening o : allOpenings){
-            if(o.getDate() == date && o.getSubject() == subject && s >= o.getStart() && s < o.getEnd()){
+            if(o.getDate().equals(date) && o.getSubject().equals(subject) && s >= o.getStart() && s < o.getEnd()){
                 results.add(o);
             }
         }
@@ -42,7 +42,7 @@ public class SystemManager{
     }
 
     public static void load(){
-        FileManager.load();
+        FileManager.loadData();
     }
 
     public static void setAllTutors(ArrayList<Student> studentList){
@@ -63,7 +63,7 @@ public class SystemManager{
 
     public static Tutor verifyTutor(String name, String password){
         for(Tutor t : allTutors){
-            if(t.getName() == name && t.getPassword() == password){
+            if(t.getName().equals(name) && t.getPassword().equals(password)){
                 return t;
             }
         }
@@ -72,7 +72,7 @@ public class SystemManager{
 
     public static Student verifyStudent(String name, String password){
         for(Student s : allStudents){
-            if(s.getName() == name && s.getPassword() == password){
+            if(s.getName().equals(name) && s.getPassword().equals(password)){
                 return s;
             }
         }

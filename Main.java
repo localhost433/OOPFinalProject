@@ -1,24 +1,24 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 public class Main{
+    private static Scanner s = new Scanner(System.in);
+
     public static void main(String[] args){
         FileManager.loadData();
-
-        Scanner s = new Scanner(System.in);
 
         boolean running = true;
 
         while(running){
-            System.println("Hello, what would you like to do: ");
-            System.println("(1) create a student profile");
-            System.println("(2) create a tutor profile");
-            System.println("(3) create a an opening");
-            System.println("(4) search for an opening");
-            System.println("(5) display openings for tutor");
-            System.println("(6) display openings for student");
-            System.println("(7) quit");
+            System.out.println("Hello, what would you like to do: ");
+            System.out.println("(1) create a student profile");
+            System.out.println("(2) create a tutor profile");
+            System.out.println("(3) create a an opening");
+            System.out.println("(4) search for an opening");
+            System.out.println("(5) display openings for tutor");
+            System.out.println("(6) display openings for student");
+            System.out.println("(7) quit");
 
-            int choice = scanner.nextLine();
+            int choice = Integer.parseInt(s.nextLine());
 
             switch(choice){
                 case 1:
@@ -30,6 +30,7 @@ public class Main{
                     String sPass = s.nextLine();
 
                     createStudent(sName, sPass);
+                    break;
                 case 2:
                     if(!adminLogin()) continue;
 
@@ -41,6 +42,7 @@ public class Main{
                     String subject = s.nextLine();
 
                     createTutor(tName, tPass, subject);
+                    break;
                 case 3:
                     Tutor t = tutorLogin();
                     if (t == null) continue;
@@ -53,6 +55,7 @@ public class Main{
                     String date = s.nextLine();
 
                     createOpening(start, end, date, t);
+                    break;
                 case 4:
                     Student stud = studentLogin();
                     if (stud == null) continue;
@@ -73,10 +76,12 @@ public class Main{
                         int id = Integer.parseInt(s.nextLine());
                         bookApp(stud, id);
                     }
+                    break;
                 case 5:
                     Tutor tDisplay = tutorLogin();
                     if(tDisplay == null) continue;
                     displayOpeningsForTutor(tDisplay);
+                    break;
                 case 6:
                     Student sDisplay = studentLogin();
                     if(sDisplay == null) continue;
@@ -85,10 +90,11 @@ public class Main{
                     System.out.print("Would you like to cancel a booking? (y/n): ");
                     if (s.nextLine().equalsIgnoreCase("y")) {
                         System.out.print("Enter Opening ID to cancel: ");
-                        int id = Integer.parseInt(s.nextLine());
-                        cancelApp(sDisplay, id);
+                        int cancelId = Integer.parseInt(s.nextLine());
+                        cancelApp(sDisplay, cancelId);
                     }
-                case 7: 
+                    break;
+                case 7:
                     running = false;
                     System.out.println("Goodbye!");
                     break;
@@ -103,7 +109,7 @@ public class Main{
         SystemManager.save();
     }
 
-    public static void createTutor(Sting name, String password, String subject){
+    public static void createTutor(String name, String password, String subject){
         Tutor t = new Tutor(name, password, subject);
         SystemManager.addTutor(t);
         SystemManager.save();
@@ -153,10 +159,10 @@ public class Main{
     }
 
     public static void cancelApp(Student s, int ID){
-        Opening o = getOpen(ID);
-        if(Opening == null){
+        Opening o = SystemManager.getOpen(ID);
+        if(o == null){
             System.out.println("No such Opening");
-            continue;
+            return;
         }
         o.setStudent(null);
         s.removeBooking(ID);
