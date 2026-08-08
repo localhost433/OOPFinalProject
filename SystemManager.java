@@ -26,4 +26,12 @@ public class SystemManager{
 
         return results;
     }
+
+    public static Opening getOpen(int ID){
+        return null;
+    }
+
+    public static void save(){
+
+    }
 }

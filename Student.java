@@ -16,4 +16,12 @@ public class Student{
     public void addBooking(Opening o){
         bookedOpenings.add(o);
     }
+
+    public Opening getOpen(int ID){
+        return null;
+    }
+
+    public void removeBooking(Opening o){
+
+    }
 }

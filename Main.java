@@ -36,5 +36,11 @@ public class Main{
         System.out.println(allOps);
     }
 
-    //we need to make methods that allow a student to book and cancel an opening
+    public static void bookApp(Student s, int ID){
+
+    }
+
+    public static void cancelApp(Student s, int ID){
+
+    }
 }

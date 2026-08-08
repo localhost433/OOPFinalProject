@@ -5,6 +5,7 @@ public class Opening{
     private Tutor openingTutor;
     private String subject;
     private Student openingStudent;
+    private int id;
 
     public Opening(int s, int e, String d, Tutor t){
         start = s;
@@ -33,5 +34,13 @@ public class Opening{
 
     public void setStudent(Student s){
         openingStudent = s;
+    }
+
+    public int getID(){
+        return id;
+    }
+
+    public boolean isAvailable(){
+        return false;
     }
 }
