@@ -157,7 +157,6 @@ public class Main{
         boolean result = o.isAvailable();
         if(result != true){
             System.out.println("not open");
-            continue;
         }
         for(Opening open : s.getAllBookings()){
             if(open.getID() == ID){
