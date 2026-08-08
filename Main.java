@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 public class Main{
+    private static Scanner s = new Scanner(System.in);
+
     public static void main(String[] args){
         SystemManager.load();
 
@@ -70,7 +72,7 @@ public class Main{
                     if (s.nextLine().equalsIgnoreCase("y")) {
                         System.out.print("Enter Opening ID: ");
                         int id = Integer.parseInt(s.nextLine());
-                        bookApp(stud, id);
+                        bookApps(stud, id);
                     }
 
                     break;
@@ -88,8 +90,8 @@ public class Main{
                     System.out.print("Would you like to cancel a booking? (y/n): ");
                     if (s.nextLine().equalsIgnoreCase("y")) {
                         System.out.print("Enter Opening ID to cancel: ");
-                        int id = Integer.parseInt(s.nextLine());
-                        cancelApp(sDisplay, id);
+                        int cancelId = Integer.parseInt(s.nextLine());
+                        cancelApp(sDisplay, cancelId);
                     }
 
                     break;
@@ -147,8 +149,8 @@ public class Main{
     }
 
     public static void bookApps(Student s, int ID){
-        Opening o = getOpen(ID);
-        if(Opening == null){
+        Opening o = SystemManager.getOpen(ID);
+        if(o == null){
             System.out.println("No such Opening");
             return;
         }
@@ -156,6 +158,16 @@ public class Main{
         if(result != true){
             System.out.println("not open");
             continue;
+        }
+        for(Opening open : s.getAllBookings()){
+            if(open.getID() == ID){
+                System.out.println("You already booked this opening.");
+                return;
+            }
+        }
+        if(s.hasConflict(o)){
+            System.out.println("You already have a booking at this time.");
+            return;
         }
 
         o.setStudent(s);
