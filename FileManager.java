@@ -8,16 +8,20 @@ public class FileManager{
             oos.writeObject(students);
             oos.writeObject(tutors);
             oos.writeObject(openings);
-        } 
-        catch (Exception e) {
-            
+        }
+        catch (IOException e) {
+            System.out.println("Could not save data: " + e);
         }
     }
 
     public static void loadData(){
         File file = new File(fileName);
-        
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName))) {
+
+        if(!file.exists()){
+            return;
+        }
+
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
             ArrayList<Student> students = (ArrayList<Student>) ois.readObject();
             ArrayList<Tutor> tutors = (ArrayList<Tutor>) ois.readObject();
             ArrayList<Opening> openings = (ArrayList<Opening>) ois.readObject();
@@ -35,9 +39,9 @@ public class FileManager{
             }
 
             Opening.setNextID(maxID + 1);
-        } 
-        catch (Exception e) {
-
+        }
+        catch (IOException | ClassNotFoundException e) {
+            System.out.println("Could not load saved data: " + e);
         }
     }
 }
