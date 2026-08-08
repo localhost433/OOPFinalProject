@@ -71,7 +71,7 @@ public class Main{
                     if (s.nextLine().equalsIgnoreCase("y")) {
                         System.out.print("Enter Opening ID: ");
                         int id = Integer.parseInt(s.nextLine());
-                        bookApps(stud, id);
+                        bookApp(stud, id);
                     }
                 case 5:
                     Tutor tDisplay = tutorLogin();
@@ -136,16 +136,16 @@ public class Main{
         }
     }
 
-    public static void bookApps(Student s, int ID){
-        Opening o = getOpen(ID);
-        if(Opening == null){
+    public static void bookApp(Student s, int ID){
+        Opening o = SystemManager.getOpen(ID);
+        if(o == null){
             System.out.println("No such Opening");
-            continue;
+            return;
         }
         boolean result = o.isAvailable();
         if(result != true){
             System.out.println("not open");
-            continue;
+            return;
         }
         o.setStudent(s);
         s.addOpening(o);

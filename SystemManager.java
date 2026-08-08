@@ -38,7 +38,7 @@ public class SystemManager{
     }
 
     public static void save(){
-        FileManager.save(allStudents, allTutors, allOpenings);
+        FileManager.saveData(allStudents, allTutors, allOpenings);
     }
 
     public static void load(){
