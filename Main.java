@@ -182,6 +182,7 @@ public class Main{
         }
         if(s.checkBookings(ID)){
             System.out.println("You already booked this opening");
+            return;
         }
         if(s.hasConflict(o)){
             System.out.println("You already have a booking at this time.");
