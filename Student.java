@@ -48,4 +48,13 @@ public class Student implements Serializable{
 
         return false;
     }
+
+    public boolean checkBookings(int ID){
+        for(Opening open : bookedOpenings){
+            if(open.getID() == ID){
+                return true;
+            }
+        }
+        return false;
+    }
 }

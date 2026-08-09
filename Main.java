@@ -157,12 +157,10 @@ public class Main{
         boolean result = o.isAvailable();
         if(result != true){
             System.out.println("not open");
+            return;
         }
-        for(Opening open : s.getAllBookings()){
-            if(open.getID() == ID){
-                System.out.println("You already booked this opening.");
-                return;
-            }
+        if(s.checkBookings(ID)){
+            System.out.println("You already booked this opening");
         }
         if(s.hasConflict(o)){
             System.out.println("You already have a booking at this time.");
