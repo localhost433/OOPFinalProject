@@ -13,6 +13,24 @@ public class SystemManager{
         allTutors.add(t);
     }
 
+    public static Student findStudent(String name){
+        for(Student s : allStudents){
+            if(s.getName().equals(name)){
+                return s;
+            }
+        }
+        return null;
+    }
+
+    public static Tutor findTutor(String name){
+        for(Tutor t : allTutors){
+            if(t.getName().equals(name)){
+                return t;
+            }
+        }
+        return null;
+    }
+
     public static void addOpening(Opening o){
         allOpenings.add(o);
     }
@@ -20,7 +38,7 @@ public class SystemManager{
     public static ArrayList<Opening> searchOpenings(int s, String subject, String date){
         ArrayList<Opening> results = new ArrayList<>();
         for(Opening o : allOpenings){
-            if(o.getDate().equals(date) && o.getSubject().equals(subject) && s >= o.getStart() && s < o.getEnd()){
+            if(o.isAvailable() && o.getDate().equals(date) && o.getSubject().equals(subject) && s >= o.getStart() && s < o.getEnd()){
                 results.add(o);
             }
         }

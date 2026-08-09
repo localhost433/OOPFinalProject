@@ -199,6 +199,7 @@ public class Main{
         Opening o = SystemManager.getOpen(ID);
         if(o == null || o.getStudent() != s){
             System.out.println("No such Opening has been booked by you");
+            return;
         }
         o.setStudent(null);
         s.removeBooking(ID);
