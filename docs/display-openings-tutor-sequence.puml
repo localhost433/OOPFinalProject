@@ -1,0 +1,34 @@
+@startuml display-openings-tutor-sequence
+' Sequence diagram — Display openings for tutor (Main.displayOpeningsForTutor)
+
+actor Tutor as tutor
+
+participant "Main" as main
+participant "t : Tutor" as tObj
+participant "o : Opening" as open
+
+tutor -> main : displayOpeningsForTutor(t)
+activate tutor
+activate main
+deactivate tutor
+
+main -> tObj : getAllOpenings()
+activate tObj
+tObj --> main : allOps
+deactivate tObj
+
+loop for each Opening in allOps
+    main -> open : toString()
+    activate open
+    alt openingStudent == null
+        open --> main : "... | Status: Available"
+    else openingStudent != null
+        open --> main : "... | Status: Booked by <name>"
+    end
+    deactivate open
+    main --> tutor : print opening
+end
+
+deactivate main
+
+@enduml
