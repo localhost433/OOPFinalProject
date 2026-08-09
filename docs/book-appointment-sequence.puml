@@ -1,0 +1,44 @@
+@startuml book-appointment-sequence
+' Sequence diagram — Student books an appointment (Main.bookApps)
+
+actor Student as student
+
+participant "Main" as main
+participant "SystemManager" as sys
+participant "o : Opening" as open
+participant "s : Student" as sObj
+participant "FileManager" as file
+
+student -> main : bookApps(s, ID)
+activate student
+activate main
+
+main -> sys : getOpen(ID)
+activate sys
+sys --> main : o
+deactivate sys
+deactivate student
+
+main -> open : isAvailable()
+activate open
+open --> main : result
+main -> open : setStudent(s) if result == true
+deactivate open
+
+main -> sObj : addOpening(o)
+activate sObj
+deactivate sObj
+
+main -> sys : save()
+activate sys
+
+main --> student : Print "not open" if result != true
+
+sys -> file : saveData()
+activate file
+deactivate file
+deactivate sys
+
+deactivate main
+
+@enduml
