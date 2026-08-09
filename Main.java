@@ -99,18 +99,31 @@ public class Main{
                     running = false;
                     System.out.println("Goodbye!");
                     break;
+                default:
+                    System.out.println("Please choose a number from 1 to 7.");
+                    break;
             }
 
         }
     }
 
     public static void createStudent(String name, String password){
+        if(SystemManager.findStudent(name) != null){
+            System.out.println("A student named " + name + " already exists.");
+            return;
+        }
+
         Student s = new Student(name, password);
         SystemManager.addStudent(s);
         SystemManager.save();
     }
 
     public static void createTutor(String name, String password, String subject){
+        if(SystemManager.findTutor(name) != null){
+            System.out.println("A tutor named " + name + " already exists.");
+            return;
+        }
+
         Tutor t = new Tutor(name, password, subject);
         SystemManager.addTutor(t);
         SystemManager.save();
@@ -131,7 +144,15 @@ public class Main{
 
     public static void searchOpenings(int s, String subject, String date){
         ArrayList<Opening> results = SystemManager.searchOpenings(s, subject, date);
-        System.out.println(results);
+
+        if(results.isEmpty()){
+            System.out.println("No openings match that subject, date, and time.");
+            return;
+        }
+
+        for(Opening o : results){
+            System.out.println(o);
+        }
     }
 
     public static void displayOpeningsForTutor(Tutor t){
@@ -176,6 +197,7 @@ public class Main{
         Opening o = SystemManager.getOpen(ID);
         if(o == null || o.getStudent() != s){
             System.out.println("No such Opening has been booked by you");
+            return;
         }
         o.setStudent(null);
         s.removeBooking(ID);
