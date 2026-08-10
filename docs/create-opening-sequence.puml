@@ -1,5 +1,5 @@
 @startuml create-opening-sequence
-' Sequence diagram — Tutor creates an opening (Main.createOpening)
+' Sequence diagram — Tutor adds availability (Main.createOpening)
 
 actor Tutor as tutor
 
@@ -7,34 +7,30 @@ participant "Main" as main
 participant "t : Tutor" as tObj
 participant "o : Opening" as open
 participant "SystemManager" as sys
-participant "FileManager" as file
 
 tutor -> main : createOpening(start, end, date, t)
-activate tutor
 activate main
-deactivate tutor
 
 main -> open ** : new Opening(start, end, date, t)
 
 main -> tObj : hasConflict(o)
 activate tObj
-tObj --> main : conflict
+tObj --> main : true / false
 deactivate tObj
 
-main -> tObj : addOpening(o)
-activate tObj
-deactivate tObj
+alt hasConflict(o) == true
+    main -> tutor : "You already have an opening at this time."
+else hasConflict(o) == false
+    main -> tObj : addOpening(o)
+    activate tObj
+    deactivate tObj
 
-main -> sys : addOpening(o)
-activate sys
-deactivate sys
+    main -> sys : addOpening(o)
+    activate sys
+    deactivate sys
 
-main -> sys : save()
-activate sys
-sys -> file : saveData()
-activate file
-deactivate file
-deactivate sys
+    main -> sys : save()
+end
 
 deactivate main
 

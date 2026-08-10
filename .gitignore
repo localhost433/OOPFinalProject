@@ -1,0 +1,17 @@
+# Java
+*.class
+
+# Files
+*.pdf
+*.png
+*.zip
+
+# LaTeX
+docs/*.tex
+docs/*.aux
+docs/*.fdb_latexmk
+docs/*.fls
+docs/*.log
+docs/*.out
+docs/*.toc
+docs/*.synctex.gz

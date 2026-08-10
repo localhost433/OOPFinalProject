@@ -1,31 +1,34 @@
 @startuml use-case-diagram
 ' Use case diagram — Tutoring Center Appointment Manager
 
-actor Student as student
-actor Tutor as tutor
-actor Admin as admin
+left to right direction
+skinparam packageStyle rectangle
+
+actor Student        as student
+actor Tutor          as tutor
+actor Administrator  as admin
 
 rectangle "Tutoring Center Appointment Manager" {
-  usecase searchOpen    as "Search openings"
-  usecase displayStudent as "Display openings for student"
-  usecase bookApp       as "Book appointment"
-  usecase cancelApp     as "Cancel appointment"
+  usecase createStudent  as "UC-01\nCreate student"
+  usecase createTutor    as "UC-02\nCreate tutor"
 
-  usecase createOpening as "Create opening"
-  usecase displayTutor  as "Display openings for tutor"
+  usecase createOpening  as "UC-03\nCreate opening"
+  usecase displayTutor   as "UC-04\nDisplay openings for tutor"
 
-  usecase createStudent as "Create student"
-  usecase createTutor   as "Create tutor"
+  usecase searchOpen     as "UC-05\nSearch openings"
+  usecase bookApp        as "UC-06\nBook appointment"
+  usecase displayStudent as "UC-07\nDisplay openings for student"
+  usecase cancelApp      as "UC-08\nCancel appointment"
 }
+
+admin   --> createStudent
+admin   --> createTutor
+
+tutor   --> createOpening
+tutor   --> displayTutor
 
 student --> searchOpen
 student --> displayStudent
-
-tutor --> createOpening
-tutor --> displayTutor
-
-admin --> createStudent
-admin --> createTutor
 
 bookApp   ..> searchOpen  : <<extend>>
 cancelApp ..> displayStudent : <<extend>>

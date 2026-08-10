@@ -1,35 +1,31 @@
 @startuml create-student-sequence
-' Sequence diagram — Admin creates a student profile (Main.createStudent)
+' Sequence diagram — Administrator adds a student (Main.createStudent)
 
-actor Admin as admin
+actor Administrator as administrator
 
 participant "Main" as main
 participant "SystemManager" as sys
 participant "s : Student" as sObj
-participant "FileManager" as file
 
-admin -> main : createStudent(name, password)
-activate admin
+administrator -> main : createStudent(name, password)
 activate main
 
 main -> sys : findStudent(name)
 activate sys
-sys --> main : s
-deactivate sys
-deactivate admin
-
-main -> sObj ** : new Student(name, password)
-
-main -> sys : addStudent(s)
-activate sys
+sys --> main : s / null
 deactivate sys
 
-main -> sys : save()
-activate sys
-sys -> file : saveData()
-activate file
-deactivate file
-deactivate sys
+alt s != null
+    main -> administrator : "A student named <name> already exists."
+else s == null
+    main -> sObj ** : new Student(name, password)
+
+    main -> sys : addStudent(s)
+    activate sys
+    deactivate sys
+
+    main -> sys : save()
+end
 
 deactivate main
 

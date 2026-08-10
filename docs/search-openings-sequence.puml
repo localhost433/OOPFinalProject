@@ -1,0 +1,31 @@
+@startuml search-openings-sequence
+' Sequence diagram — Student searches for available openings (Main.searchOpenings)
+
+actor Student as student
+
+participant "Main" as main
+participant "SystemManager" as sys
+participant "o : Opening" as open
+
+student -> main : searchOpenings(start, subject, date)
+activate main
+
+main -> sys : searchOpenings(start, subject, date)
+activate sys
+sys --> main : results
+deactivate sys
+
+alt results.isEmpty() == true
+    main -> student : "No openings match that subject, date, and time."
+else results.isEmpty() == false
+    main -> open : toString()
+    activate open
+    open --> main : text
+    deactivate open
+
+    main -> student : opening details
+end
+
+deactivate main
+
+@enduml

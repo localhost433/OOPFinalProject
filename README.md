@@ -41,11 +41,9 @@ java Main
 - [x] Proposal drafted
 - [x] Class design
 - [x] Model classes compile
-- [ ] Booking
-- [ ] Cancel or reschedule
-- [ ] CLI in `main()`
-- [ ] Persistence
-- [ ] Use case diagram
+- [x] CLI in `main()`
+- [x] Persistence
+- [x] Use case diagram
 - [ ] Sequence diagrams — one per use case
 - [ ] Class diagram
 

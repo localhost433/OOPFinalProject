@@ -8,22 +8,19 @@ participant "s : Student" as sObj
 participant "o : Opening" as open
 
 student -> main : displayOpeningsForStudent(s)
-activate student
 activate main
-deactivate student
 
 main -> sObj : getAllBookings()
 activate sObj
 sObj --> main : allOps
 deactivate sObj
 
-loop for each Opening in allOps
-    main -> open : toString()
-    activate open
-    open --> main : text
-    deactivate open
-    main --> student : print opening
-end
+main -> open : toString()
+activate open
+open --> main : text
+deactivate open
+
+main -> student : opening details
 
 deactivate main
 
