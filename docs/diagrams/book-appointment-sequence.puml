@@ -7,6 +7,7 @@ participant "Main" as main
 participant "SystemManager" as sys
 participant "o : Opening" as open
 participant "s : Student" as sObj
+participant "FileManager" as file
 
 student -> main : bookApps(s, ID)
 activate main
@@ -56,6 +57,11 @@ else o != null
                 deactivate sObj
 
                 main -> sys : save()
+                activate sys
+                sys -> file : saveData(allStudents, allTutors, allOpenings)
+                activate file
+                deactivate file
+                deactivate sys
             end
         end
     end
