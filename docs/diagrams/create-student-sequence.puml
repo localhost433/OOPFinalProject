@@ -6,6 +6,7 @@ actor Administrator as administrator
 participant "Main" as main
 participant "SystemManager" as sys
 participant "s : Student" as sObj
+participant "FileManager" as file
 
 administrator -> main : createStudent(name, password)
 activate main
@@ -25,6 +26,12 @@ else s == null
     deactivate sys
 
     main -> sys : save()
+
+    activate sys
+    sys -> file : saveData(allStudents, allTutors, allOpenings)
+    activate file
+    deactivate file
+    deactivate sys
 end
 
 deactivate main
