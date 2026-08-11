@@ -15,12 +15,14 @@ activate sObj
 sObj --> main : allOps
 deactivate sObj
 
-main -> open : toString()
-activate open
-open --> main : text
-deactivate open
+loop for each Opening o in allOps
+    main -> open : toString()
+    activate open
+    open --> main : text
+    deactivate open
 
-main -> student : opening details
+    main -> student : opening details
+end
 
 deactivate main
 
