@@ -7,6 +7,7 @@ participant "Main" as main
 participant "t : Tutor" as tObj
 participant "o : Opening" as open
 participant "SystemManager" as sys
+participant "FileManager" as file
 
 tutor -> main : createOpening(start, end, date, t)
 activate main
@@ -30,6 +31,12 @@ else hasConflict(o) == false
     deactivate sys
 
     main -> sys : save()
+
+    activate sys
+    sys -> file : saveData(allStudents, allTutors, allOpenings)
+    activate file
+    deactivate file
+    deactivate sys
 end
 
 deactivate main
