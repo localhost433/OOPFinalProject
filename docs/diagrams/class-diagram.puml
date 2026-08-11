@@ -1,0 +1,138 @@
+@startuml class-diagram
+' Class diagram — Tutoring Center Appointment Manager
+
+' java.io.Serializable (JDK)
+interface Serializable {
+}
+
+class Main <<static>> {
+    + {static} main(args : String[]) : void
+    + {static} createStudent(name : String, password : String) : void
+    + {static} createTutor(name : String, password : String, subject : String) : void
+    + {static} createOpening(s : int, e : int, d : String, t : Tutor) : void
+    + {static} searchOpenings(s : int, subject : String, date : String) : void
+    + {static} displayOpeningsForTutor(t : Tutor) : void
+    + {static} displayOpeningsForStudent(s : Student) : void
+    + {static} bookApps(s : Student, ID : int) : void
+    + {static} cancelApp(s : Student, ID : int) : void
+    - {static} adminLogin(s : Scanner) : boolean
+    - {static} tutorLogin(s : Scanner) : Tutor
+    - {static} studentLogin(s : Scanner) : Student
+    + {static} printMain() : void
+}
+
+class SystemManager <<static>> {
+    - {static} adminPass : String
+    - {static} allOpenings : ArrayList<Opening>
+    - {static} allTutors : ArrayList<Tutor>
+    - {static} allStudents : ArrayList<Student>
+    --
+    + {static} addStudent(s : Student) : void
+    + {static} addTutor(t : Tutor) : void
+    + {static} findStudent(name : String) : Student
+    + {static} findTutor(name : String) : Tutor
+    + {static} addOpening(o : Opening) : void
+    + {static} searchOpenings(s : int, subject : String, date : String) : ArrayList<Opening>
+    + {static} getOpen(ID : int) : Opening
+    + {static} save() : void
+    + {static} load() : void
+    + {static} setAllStudents(studentList : ArrayList<Student>) : void
+    + {static} setAllTutors(tutorList : ArrayList<Tutor>) : void
+    + {static} setAllOpenings(openingList : ArrayList<Opening>) : void
+    + {static} getAdminPass() : String
+    + {static} verifyTutor(name : String, password : String) : Tutor
+    + {static} verifyStudent(name : String, password : String) : Student
+}
+
+class Student {
+    - {static} serialVersionUID : long
+    - bookedOpenings : ArrayList<Opening>
+    - name : String
+    - password : String
+    --
+    + Student(n : String, p : String)
+    + getAllBookings() : ArrayList<Opening>
+    + addOpening(o : Opening) : void
+    + removeBooking(ID : int) : void
+    + getName() : String
+    + getPassword() : String
+    + hasConflict(newOpening : Opening) : boolean
+    + checkBookings(ID : int) : boolean
+}
+
+class Tutor {
+    - {static} serialVersionUID : long
+    - AvailableOpenings : ArrayList<Opening>
+    - name : String
+    - password : String
+    - subject : String
+    --
+    + Tutor(n : String, p : String, s : String)
+    + addOpening(o : Opening) : void
+    + getSubject() : String
+    + getAllOpenings() : ArrayList<Opening>
+    + getName() : String
+    + getPassword() : String
+    + hasConflict(newOpening : Opening) : boolean
+}
+
+class Opening {
+    - {static} serialVersionUID : long
+    - {static} nextID : int
+    - id : int
+    - start : int
+    - end : int
+    - date : String
+    - openingTutor : Tutor
+    - subject : String
+    - openingStudent : Student
+    --
+    + Opening(s : int, e : int, d : String, t : Tutor)
+    + getStart() : int
+    + getEnd() : int
+    + getSubject() : String
+    + getDate() : String
+    + getID() : int
+    + getStudent() : Student
+    + setStudent(s : Student) : void
+    + isAvailable() : boolean
+    + toString() : String
+    + {static} setNextID(ID : int) : void
+}
+
+class FileManager <<static>> {
+    - {static} fileName : String
+    --
+    + {static} saveData(students : ArrayList<Student>, tutors : ArrayList<Tutor>, openings : ArrayList<Opening>) : void
+    + {static} loadData() : void
+}
+
+' --- realization ---
+Student  ..|> Serializable
+Tutor    ..|> Serializable
+Opening  ..|> Serializable
+
+' --- aggregation: the registries hold the objects, objects outlive any one list ---
+SystemManager o-- "0..*" Student : allStudents
+SystemManager o-- "0..*" Tutor   : allTutors
+SystemManager o-- "0..*" Opening : allOpenings
+
+Tutor   "1"    o-- "0..*" Opening : AvailableOpenings
+Student "0..1" o-- "0..*" Opening : bookedOpenings
+
+' --- association: an Opening points back at its tutor and (once booked) its student ---
+Opening "0..*" --> "1"    Tutor   : openingTutor
+Opening "0..*" --> "0..1" Student : openingStudent
+
+' --- dependency ---
+Main          ..> SystemManager : <<use>>
+Main          ..> Student       : <<use>>
+Main          ..> Tutor         : <<use>>
+Main          ..> Opening       : <<use>>
+SystemManager ..> FileManager   : <<use>>
+FileManager   ..> SystemManager : <<use>>
+FileManager   ..> Opening       : <<use>>
+FileManager   ..> Student       : <<use>>
+FileManager   ..> Tutor         : <<use>>
+
+@enduml

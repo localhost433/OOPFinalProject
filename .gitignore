@@ -1,17 +1,7 @@
 # Java
 *.class
 
-# Files
+# report
 *.pdf
 *.png
-*.zip
-
-# LaTeX
-docs/*.tex
-docs/*.aux
-docs/*.fdb_latexmk
-docs/*.fls
-docs/*.log
-docs/*.out
-docs/*.toc
-docs/*.synctex.gz
+docs/report/
