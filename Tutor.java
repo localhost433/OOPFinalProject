@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 import java.io.Serializable;
 public class Tutor implements Serializable{
+    private static final long serialVersionUID = 1L;
+
     private ArrayList<Opening> AvailableOpenings = new ArrayList<>();
     private String name;
     private String password;
