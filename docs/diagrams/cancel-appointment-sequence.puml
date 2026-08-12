@@ -22,27 +22,35 @@ alt o == null
 else o != null
     main -> open : getStudent()
     activate open
-    open --> main : student / null
+    open --> main : bookedStudent / null
     deactivate open
 
-    alt getStudent() != s
+    alt bookedStudent == null
         main -> student : "No such Opening has been booked by you"
-    else getStudent() == s
-        main -> open : setStudent(null)
-        activate open
-        deactivate open
-
-        main -> sObj : removeBooking(ID)
+    else bookedStudent != null
+        main -> sObj : getName()
         activate sObj
+        sObj --> main : name
         deactivate sObj
 
-        main -> sys : save()
+        alt !bookedStudent.getName().equals(name)
+            main -> student : "No such Opening has been booked by you"
+        else bookedStudent.getName().equals(name)
+            main -> open : setStudent(null)
+            activate open
+            deactivate open
 
-        activate sys
-        sys -> file : saveData(allStudents, allTutors, allOpenings)
-        activate file
-        deactivate file
-        deactivate sys
+            main -> sObj : removeBooking(ID)
+            activate sObj
+            deactivate sObj
+
+            main -> sys : save()
+            activate sys
+            sys -> file : saveData(allStudents, allTutors, allOpenings)
+            activate file
+            deactivate file
+            deactivate sys
+        end
     end
 end
 
