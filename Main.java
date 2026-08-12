@@ -194,7 +194,7 @@ public class Main{
 
     public static void cancelApp(Student s, int ID){
         Opening o = SystemManager.getOpen(ID);
-        if(o == null || o.getStudent() != s){
+        if(o == null || o.getStudent() == null || !o.getStudent().getName().equals(s.getName())){
             System.out.println("No such Opening has been booked by you");
             return;
         }
