@@ -1,0 +1,59 @@
+@startuml cancel-appointment-sequence
+' Sequence diagram — Student cancels an opening (Main.cancelApp)
+
+actor Student as student
+
+participant "Main" as main
+participant "SystemManager" as sys
+participant "o : Opening" as open
+participant "s : Student" as sObj
+participant "FileManager" as file
+
+student -> main : cancelApp(s, ID)
+activate main
+
+main -> sys : getOpen(ID)
+activate sys
+sys --> main : o
+deactivate sys
+
+alt o == null
+    main -> student : "No such Opening has been booked by you"
+else o != null
+    main -> open : getStudent()
+    activate open
+    open --> main : bookedStudent / null
+    deactivate open
+
+    alt bookedStudent == null
+        main -> student : "No such Opening has been booked by you"
+    else bookedStudent != null
+        main -> sObj : getName()
+        activate sObj
+        sObj --> main : name
+        deactivate sObj
+
+        alt !bookedStudent.getName().equals(name)
+            main -> student : "No such Opening has been booked by you"
+        else bookedStudent.getName().equals(name)
+            main -> open : setStudent(null)
+            activate open
+            deactivate open
+
+            main -> sObj : removeBooking(ID)
+            activate sObj
+            deactivate sObj
+
+            main -> sys : save()
+            activate sys
+            sys -> file : saveData(allStudents, allTutors, allOpenings)
+            activate file
+            deactivate file
+            deactivate sys
+        end
+    end
+end
+
+deactivate main
+
+@enduml

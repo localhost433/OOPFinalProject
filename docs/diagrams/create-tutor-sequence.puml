@@ -1,0 +1,39 @@
+@startuml create-tutor-sequence
+' Sequence diagram — Administrator adds a tutor (Main.createTutor)
+
+actor Administrator as administrator
+
+participant "Main" as main
+participant "SystemManager" as sys
+participant "FileManager" as file
+participant "t : Tutor" as tObj
+
+administrator -> main : createTutor(name, password, subject)
+activate main
+
+main -> sys : findTutor(name)
+activate sys
+sys --> main : t / null
+deactivate sys
+
+alt t != null
+    main -> administrator : "A tutor named <name> already exists."
+else t == null
+    main -> tObj ** : new Tutor(name, password, subject)
+
+    main -> sys : addTutor(t)
+    activate sys
+    deactivate sys
+
+    main -> sys : save()
+
+    activate sys
+    sys -> file : saveData(allStudents, allTutors, allOpenings)
+    activate file
+    deactivate file
+    deactivate sys
+end
+
+deactivate main
+
+@enduml
