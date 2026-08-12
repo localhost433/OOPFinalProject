@@ -15,6 +15,7 @@ class Main <<static>> {
     + {static} displayOpeningsForStudent(s : Student) : void
     + {static} bookApps(s : Student, ID : int) : void
     + {static} cancelApp(s : Student, ID : int) : void
+    - {static} readInt(s : Scanner, prompt : String) : int
     - {static} adminLogin(s : Scanner) : boolean
     - {static} tutorLogin(s : Scanner) : Tutor
     - {static} studentLogin(s : Scanner) : Student

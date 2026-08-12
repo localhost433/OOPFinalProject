@@ -19,12 +19,13 @@ alt results.isEmpty() == true
     main -> student : "No openings match that subject, date, and time."
 else results.isEmpty() == false
     loop for each Opening o in results
-    main -> open : toString()
-    activate open
-    open --> main : text
-    deactivate open
+        main -> open : toString()
+        activate open
+        open --> main : text
+        deactivate open
 
-    main -> student : opening details
+        main -> student : opening details
+    end
 end
 
 deactivate main

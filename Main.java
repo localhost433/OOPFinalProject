@@ -11,7 +11,7 @@ public class Main{
         while(running){
             printMain();
 
-            int choice = Integer.parseInt(s.nextLine());
+            int choice = readInt(s, "Enter your choice: ");
 
             switch(choice){
                 case 1:
@@ -42,10 +42,8 @@ public class Main{
                     Tutor t = tutorLogin(s);
                     if (t == null) break;
 
-                    System.out.print("Enter start time in military time: ");
-                    int start = Integer.parseInt(s.nextLine());
-                    System.out.print("Enter end time in military time: ");
-                    int end = Integer.parseInt(s.nextLine());
+                    int start = readInt(s, "Enter start time in military time: ");
+                    int end = readInt(s, "Enter end time in military time: ");
                     System.out.print("Enter date: ");
                     String date = s.nextLine();
 
@@ -56,8 +54,7 @@ public class Main{
                     Student stud = studentLogin(s);
                     if (stud == null) break;
 
-                    System.out.print("Enter start time: ");
-                    int searchStart = Integer.parseInt(s.nextLine());
+                    int searchStart = readInt(s, "Enter start time: ");
                     System.out.print("Enter subject: ");
                     String searchSubject = s.nextLine();
                     System.out.print("Enter date: ");
@@ -68,8 +65,7 @@ public class Main{
                     System.out.print("Would you like to book an appointment? (y/n): ");
 
                     if (s.nextLine().equalsIgnoreCase("y")) {
-                        System.out.print("Enter Opening ID: ");
-                        int id = Integer.parseInt(s.nextLine());
+                        int id = readInt(s, "Enter Opening ID: ");
                         bookApps(stud, id);
                     }
 
@@ -87,8 +83,7 @@ public class Main{
 
                     System.out.print("Would you like to cancel a booking? (y/n): ");
                     if (s.nextLine().equalsIgnoreCase("y")) {
-                        System.out.print("Enter Opening ID to cancel: ");
-                        int cancelId = Integer.parseInt(s.nextLine());
+                        int cancelId = readInt(s, "Enter Opening ID to cancel: ");
                         cancelApp(sDisplay, cancelId);
                     }
 
@@ -201,6 +196,18 @@ public class Main{
         o.setStudent(null);
         s.removeBooking(ID);
         SystemManager.save();
+    }
+
+    private static int readInt(Scanner s, String prompt){
+        while(true){
+            System.out.print(prompt);
+            try{
+                return Integer.parseInt(s.nextLine().trim());
+            }
+            catch(NumberFormatException e){
+                System.out.println("That is not a whole number. Please try again.");
+            }
+        }
     }
 
     private static boolean adminLogin(Scanner s) {
