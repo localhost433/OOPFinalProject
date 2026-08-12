@@ -1,19 +1,28 @@
 @startuml display-openings-student-sequence
 ' Sequence diagram — Display openings for student (Main.displayOpeningsForStudent)
 
+hide footbox
+
 actor Student as student
 
 participant "Main" as main
+participant "service : AppointmentService" as service
 participant "s : Student" as sObj
 participant "o : Opening" as open
 
 student -> main : displayOpeningsForStudent(s)
 activate main
 
-main -> sObj : getAllBookings()
+main -> service : openingsForStudent(s)
+activate service
+
+service -> sObj : getAllBookings()
 activate sObj
-sObj --> main : allOps
+sObj --> service : allOps
 deactivate sObj
+
+service --> main : allOps
+deactivate service
 
 loop for each Opening o in allOps
     main -> open : toString()

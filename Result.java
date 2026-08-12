@@ -1,0 +1,9 @@
+public enum Result{
+    OK,
+    DUPLICATE_NAME,
+    TIME_CONFLICT,
+    NO_SUCH_OPENING,
+    NOT_AVAILABLE,
+    ALREADY_BOOKED,
+    NOT_BOOKED_BY_YOU
+}

@@ -1,8 +1,11 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 public class Main{
+
+    private static final AppointmentService service = new AppointmentService();
+
     public static void main(String[] args){
-        SystemManager.load();
+        service.load();
 
         Scanner s = new Scanner(System.in);
 
@@ -74,7 +77,7 @@ public class Main{
                     Tutor tDisplay = tutorLogin(s);
                     if(tDisplay == null) break;
                     displayOpeningsForTutor(tDisplay);
-                    
+
                     break;
                 case 6:
                     Student sDisplay = studentLogin(s);
@@ -88,7 +91,7 @@ public class Main{
                     }
 
                     break;
-                case 7: 
+                case 7:
                     running = false;
                     System.out.println("Goodbye!");
                     break;
@@ -101,42 +104,31 @@ public class Main{
     }
 
     public static void createStudent(String name, String password){
-        if(SystemManager.findStudent(name) != null){
-            System.out.println("A student named " + name + " already exists.");
-            return;
-        }
+        Result r = service.createStudent(name, password);
 
-        Student s = new Student(name, password);
-        SystemManager.addStudent(s);
-        SystemManager.save();
+        if(r == Result.DUPLICATE_NAME){
+            System.out.println("A student named " + name + " already exists.");
+        }
     }
 
     public static void createTutor(String name, String password, String subject){
-        if(SystemManager.findTutor(name) != null){
-            System.out.println("A tutor named " + name + " already exists.");
-            return;
-        }
+        Result r = service.createTutor(name, password, subject);
 
-        Tutor t = new Tutor(name, password, subject);
-        SystemManager.addTutor(t);
-        SystemManager.save();
+        if(r == Result.DUPLICATE_NAME){
+            System.out.println("A tutor named " + name + " already exists.");
+        }
     }
 
     public static void createOpening(int s, int e, String d, Tutor t){
-        Opening o = new Opening(s, e, d, t);
+        Result r = service.createOpening(s, e, d, t);
 
-        if(t.hasConflict(o)){
+        if(r == Result.TIME_CONFLICT){
             System.out.println("You already have an opening at this time.");
-            return;
         }
-
-        t.addOpening(o);
-        SystemManager.addOpening(o);
-        SystemManager.save();
     }
 
     public static void searchOpenings(int s, String subject, String date){
-        ArrayList<Opening> results = SystemManager.searchOpenings(s, subject, date);
+        ArrayList<Opening> results = service.searchOpenings(s, subject, date);
 
         if(results.isEmpty()){
             System.out.println("No openings match that subject, date, and time.");
@@ -149,53 +141,46 @@ public class Main{
     }
 
     public static void displayOpeningsForTutor(Tutor t){
-        ArrayList<Opening> allOps = t.getAllOpenings();
+        ArrayList<Opening> allOps = service.openingsForTutor(t);
         for(Opening o : allOps){
             System.out.println(o);
         }
     }
 
     public static void displayOpeningsForStudent(Student s){
-        ArrayList<Opening> allOps = s.getAllBookings();
+        ArrayList<Opening> allOps = service.openingsForStudent(s);
         for(Opening o : allOps){
             System.out.println(o);
         }
     }
 
     public static void bookApps(Student s, int ID){
-        Opening o = SystemManager.getOpen(ID);
-        if(o == null){
-            System.out.println("No such Opening");
-            return;
-        }
-        boolean result = o.isAvailable();
-        if(result != true){
-            System.out.println("not open");
-            return;
-        }
-        if(s.checkBookings(ID)){
-            System.out.println("You already booked this opening");
-            return;
-        }
-        if(s.hasConflict(o)){
-            System.out.println("You already have a booking at this time.");
-            return;
-        }
+        Result r = service.bookAppointment(s, ID);
 
-        o.setStudent(s);
-        s.addOpening(o);
-        SystemManager.save();
+        switch(r){
+            case NO_SUCH_OPENING:
+                System.out.println("No such Opening");
+                break;
+            case NOT_AVAILABLE:
+                System.out.println("not open");
+                break;
+            case ALREADY_BOOKED:
+                System.out.println("You already booked this opening");
+                break;
+            case TIME_CONFLICT:
+                System.out.println("You already have a booking at this time.");
+                break;
+            default:
+                break;
+        }
     }
 
     public static void cancelApp(Student s, int ID){
-        Opening o = SystemManager.getOpen(ID);
-        if(o == null || o.getStudent() == null || !o.getStudent().getName().equals(s.getName())){
+        Result r = service.cancelAppointment(s, ID);
+
+        if(r == Result.NOT_BOOKED_BY_YOU){
             System.out.println("No such Opening has been booked by you");
-            return;
         }
-        o.setStudent(null);
-        s.removeBooking(ID);
-        SystemManager.save();
     }
 
     private static int readInt(Scanner s, String prompt){
@@ -213,7 +198,7 @@ public class Main{
     private static boolean adminLogin(Scanner s) {
         System.out.print("Enter Admin Password: ");
         String pass = s.nextLine();
-        if (!pass.equals(SystemManager.getAdminPass())) {
+        if (!service.authenticateAdmin(pass)) {
             System.out.println("Incorrect Admin Password.");
             return false;
         }
@@ -226,7 +211,7 @@ public class Main{
         System.out.print("Enter Tutor password: ");
         String password = s.nextLine();
 
-        Tutor t = SystemManager.verifyTutor(name, password);
+        Tutor t = service.authenticateTutor(name, password);
         if (t == null) {
             System.out.println("No such tutor profile or incorrect password.");
         }
@@ -239,7 +224,7 @@ public class Main{
         System.out.print("Enter Student password: ");
         String password = s.nextLine();
 
-        Student stud = SystemManager.verifyStudent(name, password);
+        Student stud = service.authenticateStudent(name, password);
         if (stud == null) {
             System.out.println("No such student profile or incorrect password.");
         }

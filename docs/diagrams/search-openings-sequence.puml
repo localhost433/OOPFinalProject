@@ -1,19 +1,28 @@
 @startuml search-openings-sequence
 ' Sequence diagram — Student searches for available openings (Main.searchOpenings)
 
+hide footbox
+
 actor Student as student
 
 participant "Main" as main
+participant "service : AppointmentService" as service
 participant "SystemManager" as sys
 participant "o : Opening" as open
 
 student -> main : searchOpenings(start, subject, date)
 activate main
 
-main -> sys : searchOpenings(start, subject, date)
+main -> service : searchOpenings(start, subject, date)
+activate service
+
+service -> sys : searchOpenings(start, subject, date)
 activate sys
-sys --> main : results
+sys --> service : results
 deactivate sys
+
+service --> main : results
+deactivate service
 
 alt results.isEmpty() == true
     main -> student : "No openings match that subject, date, and time."

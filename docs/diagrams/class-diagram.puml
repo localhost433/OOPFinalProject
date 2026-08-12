@@ -5,7 +5,19 @@
 interface Serializable {
 }
 
+enum Result {
+    OK
+    DUPLICATE_NAME
+    TIME_CONFLICT
+    NO_SUCH_OPENING
+    NOT_AVAILABLE
+    ALREADY_BOOKED
+    NOT_BOOKED_BY_YOU
+}
+
 class Main <<static>> {
+    - {static} service : AppointmentService
+    --
     + {static} main(args : String[]) : void
     + {static} createStudent(name : String, password : String) : void
     + {static} createTutor(name : String, password : String, subject : String) : void
@@ -20,6 +32,21 @@ class Main <<static>> {
     - {static} tutorLogin(s : Scanner) : Tutor
     - {static} studentLogin(s : Scanner) : Student
     + {static} printMain() : void
+}
+
+class AppointmentService {
+    + load() : void
+    + authenticateAdmin(password : String) : boolean
+    + authenticateTutor(name : String, password : String) : Tutor
+    + authenticateStudent(name : String, password : String) : Student
+    + createStudent(name : String, password : String) : Result
+    + createTutor(name : String, password : String, subject : String) : Result
+    + createOpening(start : int, end : int, date : String, t : Tutor) : Result
+    + searchOpenings(start : int, subject : String, date : String) : ArrayList<Opening>
+    + openingsForTutor(t : Tutor) : ArrayList<Opening>
+    + openingsForStudent(s : Student) : ArrayList<Opening>
+    + bookAppointment(s : Student, ID : int) : Result
+    + cancelAppointment(s : Student, ID : int) : Result
 }
 
 class SystemManager <<static>> {
@@ -125,11 +152,20 @@ Student "0..1" o-- "0..*" Opening : bookedOpenings
 Opening "0..*" --> "1"    Tutor   : openingTutor
 Opening "0..*" --> "0..1" Student : openingStudent
 
+' --- association: the console front end owns the one service it talks to ---
+Main "1" --> "1" AppointmentService : service
+
 ' --- dependency ---
-Main          ..> SystemManager : <<use>>
-Main          ..> Student       : <<use>>
-Main          ..> Tutor         : <<use>>
-Main          ..> Opening       : <<use>>
+' Main reaches the registry only through the service, never directly.
+Main               ..> Result        : <<use>>
+Main               ..> Student       : <<use>>
+Main               ..> Tutor         : <<use>>
+Main               ..> Opening       : <<use>>
+AppointmentService ..> SystemManager : <<use>>
+AppointmentService ..> Result        : <<use>>
+AppointmentService ..> Student       : <<use>>
+AppointmentService ..> Tutor         : <<use>>
+AppointmentService ..> Opening       : <<use>>
 SystemManager ..> FileManager   : <<use>>
 FileManager   ..> SystemManager : <<use>>
 FileManager   ..> Opening       : <<use>>

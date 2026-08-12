@@ -4,4 +4,4 @@
 # report
 *.pdf
 *.png
-docs/report/
+docs/report/*

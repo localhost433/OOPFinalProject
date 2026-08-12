@@ -1,9 +1,12 @@
 @startuml cancel-appointment-sequence
 ' Sequence diagram — Student cancels an opening (Main.cancelApp)
 
+hide footbox
+
 actor Student as student
 
 participant "Main" as main
+participant "service : AppointmentService" as service
 participant "SystemManager" as sys
 participant "o : Opening" as open
 participant "booked : Student" as bObj
@@ -13,53 +16,62 @@ participant "FileManager" as file
 student -> main : cancelApp(s, ID)
 activate main
 
-main -> sys : getOpen(ID)
+main -> service : cancelAppointment(s, ID)
+activate service
+
+service -> sys : getOpen(ID)
 activate sys
-sys --> main : o
+sys --> service : o
 deactivate sys
 
 alt o == null
+    service --> main : Result.NOT_BOOKED_BY_YOU
     main -> student : "No such Opening has been booked by you"
 else o != null
-    main -> open : getStudent()
+    service -> open : getStudent()
     activate open
-    open --> main : booked / null
+    open --> service : booked / null
     deactivate open
 
     alt booked == null
+        service --> main : Result.NOT_BOOKED_BY_YOU
         main -> student : "No such Opening has been booked by you"
     else booked != null
-        main -> bObj : getName()
+        service -> bObj : getName()
         activate bObj
-        bObj --> main : bookedName
+        bObj --> service : bookedName
         deactivate bObj
 
-        main -> sObj : getName()
+        service -> sObj : getName()
         activate sObj
-        sObj --> main : name
+        sObj --> service : name
         deactivate sObj
 
         alt bookedName.equals(name) == false
+            service --> main : Result.NOT_BOOKED_BY_YOU
             main -> student : "No such Opening has been booked by you"
         else bookedName.equals(name) == true
-            main -> open : setStudent(null)
+            service -> open : setStudent(null)
             activate open
             deactivate open
 
-            main -> sObj : removeBooking(ID)
+            service -> sObj : removeBooking(ID)
             activate sObj
             deactivate sObj
 
-            main -> sys : save()
+            service -> sys : save()
             activate sys
             sys -> file : saveData(allStudents, allTutors, allOpenings)
             activate file
             deactivate file
             deactivate sys
+
+            service --> main : Result.OK
         end
     end
 end
 
+deactivate service
 deactivate main
 
 @enduml

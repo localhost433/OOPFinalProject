@@ -1,39 +1,48 @@
 @startuml create-tutor-sequence
 ' Sequence diagram — Administrator adds a tutor (Main.createTutor)
 
+hide footbox
+
 actor Administrator as administrator
 
 participant "Main" as main
+participant "service : AppointmentService" as service
 participant "SystemManager" as sys
-participant "FileManager" as file
 participant "t : Tutor" as tObj
+participant "FileManager" as file
 
 administrator -> main : createTutor(name, password, subject)
 activate main
 
-main -> sys : findTutor(name)
+main -> service : createTutor(name, password, subject)
+activate service
+
+service -> sys : findTutor(name)
 activate sys
-sys --> main : t / null
+sys --> service : t / null
 deactivate sys
 
 alt t != null
+    service --> main : Result.DUPLICATE_NAME
     main -> administrator : "A tutor named <name> already exists."
 else t == null
-    main -> tObj ** : new Tutor(name, password, subject)
+    service -> tObj ** : new Tutor(name, password, subject)
 
-    main -> sys : addTutor(t)
+    service -> sys : addTutor(t)
     activate sys
     deactivate sys
 
-    main -> sys : save()
-
+    service -> sys : save()
     activate sys
     sys -> file : saveData(allStudents, allTutors, allOpenings)
     activate file
     deactivate file
     deactivate sys
+
+    service --> main : Result.OK
 end
 
+deactivate service
 deactivate main
 
 @enduml

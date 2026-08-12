@@ -1,9 +1,12 @@
 @startuml create-student-sequence
 ' Sequence diagram — Administrator adds a student (Main.createStudent)
 
+hide footbox
+
 actor Administrator as administrator
 
 participant "Main" as main
+participant "service : AppointmentService" as service
 participant "SystemManager" as sys
 participant "s : Student" as sObj
 participant "FileManager" as file
@@ -11,29 +14,35 @@ participant "FileManager" as file
 administrator -> main : createStudent(name, password)
 activate main
 
-main -> sys : findStudent(name)
+main -> service : createStudent(name, password)
+activate service
+
+service -> sys : findStudent(name)
 activate sys
-sys --> main : s / null
+sys --> service : s / null
 deactivate sys
 
 alt s != null
+    service --> main : Result.DUPLICATE_NAME
     main -> administrator : "A student named <name> already exists."
 else s == null
-    main -> sObj ** : new Student(name, password)
+    service -> sObj ** : new Student(name, password)
 
-    main -> sys : addStudent(s)
+    service -> sys : addStudent(s)
     activate sys
     deactivate sys
 
-    main -> sys : save()
-
+    service -> sys : save()
     activate sys
     sys -> file : saveData(allStudents, allTutors, allOpenings)
     activate file
     deactivate file
     deactivate sys
+
+    service --> main : Result.OK
 end
 
+deactivate service
 deactivate main
 
 @enduml

@@ -19,9 +19,10 @@ Sources sit at the repository root, in the default package.
 .
 ├── README.md
 ├── docs/
-│   ├── diagrams/       # PlantUML sources
-│   └── report/         # report.tex
-├── Main.java           # static entry points for each operation
+│   └── diagrams/       # PlantUML sources
+├── Main.java           # console front end: I/O
+├── AppointmentService.java
+├── Result.java         # the outcome an operation reports back to Main
 ├── SystemManager.java  # static registries of all students, tutors, and openings
 ├── Student.java        # a student and the openings they have booked
 ├── Tutor.java          # a tutor, their subject, and the openings they offer
@@ -46,8 +47,8 @@ java Main
 - [x] CLI in `main()`
 - [x] Persistence
 - [x] Use case diagram
-- [ ] Sequence diagrams — one per use case
-- [ ] Class diagram
+- [x] Sequence diagrams — one per use case
+- [x] Class diagram
 
 ## Docs
 

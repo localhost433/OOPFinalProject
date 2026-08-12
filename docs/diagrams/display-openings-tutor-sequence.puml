@@ -1,19 +1,28 @@
 @startuml display-openings-tutor-sequence
 ' Sequence diagram — Display openings for tutor (Main.displayOpeningsForTutor)
 
+hide footbox
+
 actor Tutor as tutor
 
 participant "Main" as main
+participant "service : AppointmentService" as service
 participant "t : Tutor" as tObj
 participant "o : Opening" as open
 
 tutor -> main : displayOpeningsForTutor(t)
 activate main
 
-main -> tObj : getAllOpenings()
+main -> service : openingsForTutor(t)
+activate service
+
+service -> tObj : getAllOpenings()
 activate tObj
-tObj --> main : allOps
+tObj --> service : allOps
 deactivate tObj
+
+service --> main : allOps
+deactivate service
 
 loop for each Opening o in allOps
     main -> open : toString()

@@ -1,9 +1,12 @@
 @startuml create-opening-sequence
 ' Sequence diagram — Tutor adds availability (Main.createOpening)
 
+hide footbox
+
 actor Tutor as tutor
 
 participant "Main" as main
+participant "service : AppointmentService" as service
 participant "t : Tutor" as tObj
 participant "o : Opening" as open
 participant "SystemManager" as sys
@@ -12,33 +15,39 @@ participant "FileManager" as file
 tutor -> main : createOpening(start, end, date, t)
 activate main
 
-main -> open ** : new Opening(start, end, date, t)
+main -> service : createOpening(start, end, date, t)
+activate service
 
-main -> tObj : hasConflict(o)
+service -> open ** : new Opening(start, end, date, t)
+
+service -> tObj : hasConflict(o)
 activate tObj
-tObj --> main : true / false
+tObj --> service : true / false
 deactivate tObj
 
 alt hasConflict(o) == true
+    service --> main : Result.TIME_CONFLICT
     main -> tutor : "You already have an opening at this time."
 else hasConflict(o) == false
-    main -> tObj : addOpening(o)
+    service -> tObj : addOpening(o)
     activate tObj
     deactivate tObj
 
-    main -> sys : addOpening(o)
+    service -> sys : addOpening(o)
     activate sys
     deactivate sys
 
-    main -> sys : save()
-
+    service -> sys : save()
     activate sys
     sys -> file : saveData(allStudents, allTutors, allOpenings)
     activate file
     deactivate file
     deactivate sys
+
+    service --> main : Result.OK
 end
 
+deactivate service
 deactivate main
 
 @enduml
